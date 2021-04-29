@@ -1,0 +1,6 @@
+# IDE and text editors
+.idea
+.vscode
+
+# Compiled stuff
+otus-users
