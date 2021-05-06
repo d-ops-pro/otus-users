@@ -23,7 +23,9 @@ func main() {
 		panic(err)
 	}
 
-	server := NewServer(*httpAddr, db)
+	logger := logrus.NewEntry(logrus.New())
+
+	server := NewServer(*httpAddr, db, logger)
 
 	logrus.Infof("HTTP server started and listening on: '%s' port", *httpAddr)
 	logrus.Fatal(server.ListenAndServe())

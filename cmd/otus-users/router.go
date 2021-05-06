@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
 	libhttp "github.com/d-ops-pro/otus-users/lib/http"
@@ -10,11 +11,13 @@ import (
 	"github.com/d-ops-pro/otus-users/users"
 )
 
-func SetupRouter(db *gorm.DB) chi.Router {
+func SetupRouter(db *gorm.DB, logger *logrus.Entry) chi.Router {
+
 	router := chi.NewRouter()
 	{
 		router.Use(middleware.RequestID)
-		router.Use(libhttp.WithLogger)
+		router.Use(libhttp.WithLogger(logger))
+		router.Use(metrics.NewLatencyMiddleware(logger))
 		users.ConfigureRouter(router, db)
 		metrics.ConfigureRouter(router)
 	}
