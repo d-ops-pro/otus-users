@@ -18,6 +18,7 @@ func SetupRouter(db *gorm.DB, logger *logrus.Entry) chi.Router {
 		router.Use(middleware.RequestID)
 		router.Use(libhttp.WithLogger(logger))
 		router.Use(metrics.NewLatencyMiddleware(logger))
+		router.Use(libhttp.RandomStatusMiddleware(0, 1000, logger))
 		users.ConfigureRouter(router, db)
 		metrics.ConfigureRouter(router)
 	}

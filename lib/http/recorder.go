@@ -28,7 +28,7 @@ func (r responseRecorder) Write(b []byte) (int, error) {
 	return r.writer.Write(b)
 }
 
-func (r responseRecorder) WriteHeader(s int) {
+func (r *responseRecorder) WriteHeader(s int) {
 	r.status = s
 	r.writer.WriteHeader(s)
 }

@@ -39,7 +39,7 @@ func NewLatencyMiddleware(logger *logrus.Entry) func(http.Handler) http.Handler 
 			next.ServeHTTP(recorder, r)
 
 			reqLatency.WithLabelValues(r.Method, r.URL.Path).Observe(time.Since(start).Seconds())
-			reqCount.WithLabelValues(r.Method, r.URL.Path, fmt.Sprintf("%d", recorder.Status()))
+			reqCount.WithLabelValues(r.Method, r.URL.Path, fmt.Sprintf("%d", recorder.Status())).Inc()
 		})
 	}
 }
